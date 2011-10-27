@@ -1,5 +1,5 @@
 #url model
-DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3://jwcnu.db')
+DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/recall.db")
 class Url
   include DataMapper::Resource
   property :id, Serial  

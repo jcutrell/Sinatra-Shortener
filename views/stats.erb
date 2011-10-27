@@ -11,10 +11,10 @@
     <tbody>
     <% @entries.each do |e| %>
         <tr>
-            <td><%= e.redirect_to %></td>
-            <td>http://jwc.nu/<%= e.hashname %></td>
+            <td><%= e.redirect_to.split("http://")[1] %></td>
+            <td><a href="http://jwc.nu/<%= e.hashname %>"><%= e.hashname %></a></td>
             <td><%= e.times_viewed %></td>
-            <td><%= e.last_accessed %></td>
+            <td><%= e.last_accessed.strftime("%m/%d/%y") %></td>
         </tr>
     <% end %>
     </tbody>
