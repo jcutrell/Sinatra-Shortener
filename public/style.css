@@ -276,7 +276,7 @@ td.sorting_desc {
 
 @media all and (orientation:landscape) {
   /* Style adjustments for landscape mode goes here */
-
+  width: 460px;
 }
 
 /* Grade-A Mobile Browsers (Opera Mobile, Mobile Safari, Android Chrome)
