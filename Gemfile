@@ -2,6 +2,7 @@ source :rubygems
 gem 'sinatra'
 gem "data_mapper"
 gem "dm-sqlite-adapter"
+gem "dm-postgres-adapter"
 gem 'bson'
 gem 'bson_ext'
 gem "json"
