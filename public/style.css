@@ -168,25 +168,66 @@ a:hover { color: #036; }
  * Author: 
  */
 html, body {
-    background: #ddd;
+    background-color: #5a1212;
     color: #454545;
 }
 #main {
-    width: 1200px;
+    padding-top: 30px;
+    width: 620px;
     margin: 0 auto;
+    padding: 30px 10px;
+    background-color: #fff;
 }
 #main h1 {
+    font-family: 'Vast Shadow';
     font-size: 3em;
     text-shadow: 0px 1px #fff;
 }
 
+input {
+    width: 598px;
+    padding: 10px;
+    border: 1px solid #cdcdcd;
+    margin-bottom: 4px;
+    border-radius: 20px;
+    background-color: #efefef;
+}
+input:focus {
+    background-color: #fff;
+    border: 1px solid transparent;
+    outline: none;
+    box-shadow: 0px 0px 4px #232323;
+}
+button {
+    background-color: #efefef;
+    color: #aaa;
+    border: none;
+    width: 98px;
+    margin-top: 20px;
+    padding: 12px;
+    margin-left: 250px;
+    border: 1px solid #cdcdcd;
+}
 
+table {
+    width: 100%;
+}
 
-
-
-
-
-
+thead tr {
+    background-color: #eee;
+    font-weight: bold;
+    font-size: 100%;
+}
+tr {
+    font-size: 80%;
+}
+tr:nth-child(even) {
+    background-color: #efefef;
+}
+td.sorting_asc {
+}
+td.sorting_desc {
+}
 
 
 

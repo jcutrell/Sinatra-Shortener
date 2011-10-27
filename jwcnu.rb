@@ -1,6 +1,7 @@
-require 'mongo_mapper'
 require 'uri'
 require 'digest/md5'
+require 'data_mapper'
+require 'sinatra'
 require './models/url'
 
 helpers do
@@ -8,31 +9,110 @@ helpers do
     names = ["Sir", "Master", "Homeslice", "Diggity", "J-Cizzle", "Broski", "Killer", "Broham"]
     names[rand(names.length() -1)]
   end
+  
+  def protected!
+    unless Digest::MD5.hexdigest(params[:password]) == "3a67100e1081ab0cc77be30655b5a1e8"
+      throw :halt, [403, 'Forbidden']
+    end
+  end
+  
 end
+
+
 
 get "/" do
   @title = "HOME!"
   erb :index
 end
 
-get "/:url" do
-  url = URL.find_by_url_key(params[:url])
+get "/entries" do
+  if params[:count].nil?
+    @entries = Url.all(:order => [:created_at.desc])
+  else
+    @entries = Url.all(:limit => Integer(params[:count]), :order => [:created_at.desc])
+  end
+  erb :entries
+end
+
+get "/entries.json" do
+  if params[:count].nil?
+    @entries = Url.all(:order => [:created_at.desc])
+  else
+    @entries = Url.all(:limit => Integer(params[:count]), :order => [:created_at.desc])
+  end
+  @entries.to_json
+end
+
+get "/stats" do
+  if params[:count].nil?
+    @entries = Url.all(:order => [:created_at.desc])
+  else
+    @entries = Url.all(:limit => Integer(params[:count]), :order => [:created_at.desc])
+  end
+  @extrajs = '<script src="/jquery.DataTables.js"></script>'
+  erb :stats
+end
+
+get "/:hashname" do
+  url = Url.first(:hashname => params[:hashname])
   if url.nil?
     raise Sinatra::NotFound
   else
     url.last_accessed = Time.now
-    url.times_viewed += 1
+    url.times_viewed = url.times_viewed + 1
     url.save
-    redirect url.full_url, 301
+    if url.save
+      redirect url.redirect_to
+    else
+      "Didn't save for some reason."
+    end
   end
 end
+get "/:hashname/stats" do
+  @url = Url.first(:hashname => params[:hashname])
+  if url.nil?
+     raise Sinatra::NotFound
+   else
+     erb :stats_single
+   end
+end
+
+
 
 post "/new" do
+  protected!
   new_url = params[:url]
-  if params[:chooseUrl].empty?
-    @url_key = Digest::MD5.hexdigest(new_url)[0..4]
-  else
-    @url_key = params[:chooseUrl]
+  
+  def uri?(string)
+    uri = URI.parse(string)
+    %w( http https ).include?(uri.scheme)
+  rescue URI::BadURIError
+    false
   end
-  erb :new
+  
+  unless uri? new_url
+    new_url = "http://" + new_url
+  end
+  
+  url = Url.first(:redirect_to => new_url)
+  if url.nil?
+    u = Url.new
+    u.created_at = Time.now
+    u.updated_at = Time.now
+    u.redirect_to = new_url
+    u.times_viewed = 0
+    u.last_accessed = Time.now
+    if params[:chooseUrl].empty?
+      @url_key = Digest::MD5.hexdigest(new_url)[0..4]
+    else
+      @url_key = params[:chooseUrl]
+    end
+    u.hashname = @url_key
+    u.save
+    @url = u
+    erb :new
+  else
+    @url = url
+    erb :urlexists
+  end
 end

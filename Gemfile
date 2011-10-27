@@ -1,7 +1,7 @@
 source :rubygems
 gem 'sinatra'
+gem "data_mapper"
 gem 'bson'
 gem 'bson_ext'
-gem 'mongo_mapper'
 gem "json"
 gem "i18n"

@@ -1,0 +1,21 @@
+<h1>Stats, <%= nickname %></h1>
+<table>
+    <thead>
+        <tr>
+            <td>Redirect to</td>
+            <td>Short Link</td>
+            <td>Times Viewed</td>
+            <td>Last Accessed</td>
+        </tr>
+    </thead>
+    <tbody>
+    <% @entries.each do |e| %>
+        <tr>
+            <td><%= e.redirect_to %></td>
+            <td>http://jwc.nu/<%= e.hashname %></td>
+            <td><%= e.times_viewed %></td>
+            <td><%= e.last_accessed %></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
