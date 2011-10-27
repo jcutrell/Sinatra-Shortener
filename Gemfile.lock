@@ -5,7 +5,7 @@ GEM
     bcrypt-ruby (3.0.1)
     bson (1.4.1)
     bson_ext (1.4.1)
-    datamapper (1.2.0)
+    data_mapper (1.2.0)
       dm-aggregates (~> 1.2.0)
       dm-constraints (~> 1.2.0)
       dm-core (~> 1.2.0)
@@ -65,7 +65,7 @@ PLATFORMS
 DEPENDENCIES
   bson
   bson_ext
-  datamapper
+  data_mapper
   i18n
   json
   sinatra
