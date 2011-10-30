@@ -1,4 +1,6 @@
 #url model
+# uncomment this and comment out the next line for local dev:
+# DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/jwcnu.db")
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3://jwcnu.db')
 class Url
   include DataMapper::Resource
