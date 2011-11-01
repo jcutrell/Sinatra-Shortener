@@ -61,7 +61,7 @@ get "/:hashname" do
     url.last_accessed = Time.now
     url.times_viewed = url.times_viewed + 1
     url.save
-    if url.save
+    if url.save!
       redirect url.redirect_to
     else
       "Didn't save for some reason."
@@ -76,8 +76,6 @@ get "/:hashname/stats" do
      erb :stats_single
    end
 end
-
-
 
 post "/new" do
   protected!
@@ -96,21 +94,22 @@ post "/new" do
   
   url = Url.first(:redirect_to => new_url)
   if url.nil?
-    u = Url.new
-    u.created_at = Time.now
-    u.updated_at = Time.now
-    u.redirect_to = new_url
-    u.times_viewed = 0
-    u.last_accessed = Time.now
-    if params[:chooseUrl].empty?
-      @url_key = Digest::MD5.hexdigest(new_url)[0..4]
+    @u = Url.new
+    @u.created_at = Time.now
+    @u.updated_at = Time.now
+    @u.redirect_to = new_url
+    @u.times_viewed = 0
+    @u.last_accessed = Time.now
+    if params[:chooseurl].empty?
+      @u.hashname = Digest::MD5.hexdigest(new_url)[0..4]
     else
-      @url_key = params[:chooseUrl]
+      @u.hashname = params[:chooseurl]
     end
-    u.hashname = @url_key
-    u.save
-    @url = u
-    erb :new
+    if @u.save!
+      erb :new
+    else
+      "Something went wrong! Params: " + params.to_s
+    end
   else
     @url = url
     erb :urlexists
