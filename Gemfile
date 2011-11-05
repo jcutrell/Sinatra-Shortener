@@ -5,7 +5,10 @@ gem "data_mapper"
 gem "dm-sqlite-adapter"
 #using postgres on heroku
 gem "dm-postgres-adapter"
-gem 'bson'
-gem 'bson_ext'
+gem 'bson', '= 1.4.0'
+gem 'bson_ext', '= 1.4.0'
 gem "json"
 gem "i18n"
+gem "cucumber"
+gem "capybara"
+gem "rspec"
