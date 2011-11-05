@@ -106,7 +106,7 @@ post "/new" do
       @u.hashname = params[:chooseurl]
     end
     if @u.save!
-      puts @u.to_s
+      puts @u
       erb :new
     else
       "Something went wrong! Params: " + params.to_s
