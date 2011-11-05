@@ -91,7 +91,7 @@ post "/new" do
   unless uri? new_url
     new_url = "http://" + new_url
   end
-  
+  puts new_url
   url = Url.first(:redirect_to => new_url)
   if url.nil?
     @u = Url.new
@@ -106,6 +106,7 @@ post "/new" do
       @u.hashname = params[:chooseurl]
     end
     if @u.save!
+      puts @u.to_s
       erb :new
     else
       "Something went wrong! Params: " + params.to_s
